@@ -34,7 +34,8 @@ const Content = styled.div`
 `;
 
 const LogoImg = styled.img`
-  height: 19px;
+  width: 130px;
+  height: auto;
   margin-right: 33px;
   cursor: pointer;
 `;
