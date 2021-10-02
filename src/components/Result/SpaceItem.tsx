@@ -22,12 +22,15 @@ const SpaceItem: FC<Props> = ({ space }) => {
     <SpaceLi>
       <SpaceImg src={imageUrl} alt={hostName} />
       <Description>
-        <p>
-          <Title>
+        <Title>
+          <span className="name">
             {hostName} / {venueName}
-          </Title>
-          <span>{type}</span>
-        </p>
+          </span>
+          <span>
+            {type === "approval" && <Type className={type}>승인</Type>}
+            {type === "realtime" && <Type className={type}>실시간</Type>}
+          </span>
+        </Title>
         <Address>{address}</Address>
       </Description>
       <PriceContainer>
@@ -59,7 +62,29 @@ const Description = styled.div`
 `;
 
 const Title = styled.span`
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+
+  .name {
+    font-weight: bold;
+  }
+`;
+
+const Type = styled.span`
+  margin-left: 12px;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  color: white;
+
+  &.approval {
+    background: #5ac7ff;
+  }
+
+  &.realtime {
+    background: #0077ed;
+  }
 `;
 
 const Address = styled.p`
