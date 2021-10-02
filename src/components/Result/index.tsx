@@ -47,7 +47,7 @@ function Result() {
 export default Result;
 
 const Container = styled.main`
-  width: 1180px;
+  width: 1194px;
   margin: auto;
   margin-top: 67px;
 `;

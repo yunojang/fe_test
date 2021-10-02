@@ -21,12 +21,13 @@ const Container = styled.header`
   height: 89px;
   border-bottom: 1px solid #efefef;
   background: #fff;
+  z-index: 1;
 `;
 
 const Content = styled.div`
   display: flex;
   align-items: center;
-  width: 1182px;
+  width: 1194px;
   height: 100%;
   padding: 22px 0;
   margin: auto;
