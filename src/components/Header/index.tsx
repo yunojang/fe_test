@@ -20,6 +20,7 @@ const Container = styled.header`
   top: 0;
   height: 89px;
   border-bottom: 1px solid #efefef;
+  background: #fff;
 `;
 
 const Content = styled.div`
@@ -34,4 +35,5 @@ const Content = styled.div`
 const LogoImg = styled.img`
   height: 19px;
   margin-right: 33px;
+  cursor: pointer;
 `;
