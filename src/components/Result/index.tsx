@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { FrownOutlined } from "@ant-design/icons";
+import { FrownOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import { Space } from "./types";
 import { RootState } from "store/reducers";
@@ -17,6 +17,7 @@ import Pager from "./Pager";
 function Result() {
   const [spaces, setSpaces] = useState<Space[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
   const { searchText } = useSelector<RootState, SearchState>(
     (state) => state.search
@@ -35,6 +36,7 @@ function Result() {
     };
 
     const loadSpaceList = async () => {
+      setIsLoading(true);
       const response = await fetch(`${BASE_URL}/${SPACE_FILE}`);
 
       if (!response.ok) {
@@ -61,6 +63,7 @@ function Result() {
       })
       .finally(() => {
         setPage(1);
+        setIsLoading(false);
       });
 
     window.scrollTo(0, 0);
@@ -76,6 +79,11 @@ function Result() {
   return (
     <Container>
       <ResultHeader search={searchText} count={spaces.length} />
+      {isLoading && (
+        <Loading>
+          <LoadingOutlined />
+        </Loading>
+      )}
 
       {error ? (
         <Alert className="error">
@@ -118,4 +126,11 @@ const Alert = styled.div`
   &.error {
     color: #888;
   }
+`;
+
+const Loading = styled.div`
+  text-align: center;
+  font-size: 140px;
+  color: #0077ed;
+  padding: 80px 0;
 `;
