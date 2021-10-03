@@ -35,8 +35,9 @@ function Result() {
       return includeHost || includeVenue || includeAddress;
     };
 
-    const loadSpaceList = async () => {
+    const loadSpaceList = async (): Promise<Space[]> => {
       setIsLoading(true);
+
       const response = await fetch(`${BASE_URL}/${SPACE_FILE}`);
 
       if (!response.ok) {
@@ -52,15 +53,22 @@ function Result() {
         throw TypeError("검색 결과가 없습니다.");
       }
 
-      setSpaces(filtedSpaces);
+      return filtedSpaces;
+    };
+
+    const successLoad = (list: Space[]) => {
       setError(null);
+      setSpaces(list);
+    };
+
+    const errorLoad = (err: Error) => {
+      setError(err.message);
+      setSpaces([]);
     };
 
     loadSpaceList()
-      .catch((err) => {
-        setError(err.message);
-        setSpaces([]);
-      })
+      .then(successLoad)
+      .catch(errorLoad)
       .finally(() => {
         setPage(1);
         setIsLoading(false);
