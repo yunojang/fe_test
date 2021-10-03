@@ -87,13 +87,11 @@ function Result() {
   return (
     <Container>
       <ResultHeader search={searchText} count={spaces.length} />
-      {isLoading && (
+      {isLoading ? (
         <Loading>
           <LoadingOutlined />
         </Loading>
-      )}
-
-      {error ? (
+      ) : error ? (
         <Alert className="error">
           <FrownOutlined />
           <span>{error}</span>
