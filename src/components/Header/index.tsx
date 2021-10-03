@@ -1,12 +1,20 @@
+import { useDispatch } from "react-redux";
+import { setSearch } from "store/actions/search";
 import styled from "styled-components";
 import logo from "../images/logo.png";
 import SearchForm from "./SearchForm";
 
 function Header() {
+  const dispatch = useDispatch();
+
+  const resetSearch = () => {
+    dispatch(setSearch(""));
+  };
+
   return (
     <Container>
       <Content>
-        <LogoImg src={logo} alt="logo" />
+        <LogoImg src={logo} alt="logo" onClick={resetSearch} />
         <SearchForm />
       </Content>
     </Container>

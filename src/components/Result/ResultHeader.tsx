@@ -1,13 +1,21 @@
+import { FC } from "react";
 import styled from "styled-components";
 
-function Header() {
+interface Props {
+  search: string;
+  count: number;
+}
+
+const Header: FC<Props> = ({ search, count }) => {
   return (
     <HeaderContainer>
-      <SearchContent>'00' 공간 검색 결과</SearchContent>
-      <TotalResult>총 19개</TotalResult>
+      <SearchContent>
+        {search.trim() === "" ? "모든" : `'${search}'`} 공간 검색 결과
+      </SearchContent>
+      <TotalResult>총 {count}개</TotalResult>
     </HeaderContainer>
   );
-}
+};
 
 export default Header;
 

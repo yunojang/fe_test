@@ -1,17 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setSearch } from "store/actions/search";
 import styled from "styled-components";
 import searchIcon from "../images/search.png";
 
 function SearchForm() {
-  const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  const dispatch = useDispatch();
+  const [value, setValue] = useState<string>("");
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("search");
+    if (value.length < 2) {
+      alert("두글자 이상 입력해주세요");
+      return;
+    }
+
+    dispatch(setSearch(value));
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
   };
 
   return (
-    <FormContainer onSubmit={onSearch}>
-      <SearchInput type="text" placeholder="무슨 행사를 진행하시나요?" />
+    <FormContainer onSubmit={onSubmit}>
+      <SearchInput
+        type="text"
+        placeholder="무슨 행사를 진행하시나요?"
+        onChange={onChange}
+        value={value}
+      />
       <SearchButton />
     </FormContainer>
   );

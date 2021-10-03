@@ -11,7 +11,7 @@ function TopButton() {
 
   return (
     <Button onClick={onClick}>
-      <img src={arrowUp} />
+      <img src={arrowUp} alt="top" />
       <span>TOP</span>
     </Button>
   );

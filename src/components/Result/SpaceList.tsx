@@ -4,13 +4,13 @@ import SpaceItem from "./SpaceItem";
 import { Space } from "./types";
 
 interface Props {
-  list: Space[];
+  spaces: Space[];
 }
 
-const SpaceList: FC<Props> = ({ list }) => {
+const SpaceList: FC<Props> = ({ spaces }) => {
   return (
     <ul>
-      {list.map((space) => (
+      {spaces.map((space) => (
         <SpaceItem key={space.id} space={space} />
       ))}
     </ul>
