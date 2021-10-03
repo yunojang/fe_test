@@ -9,6 +9,7 @@ function Header() {
 
   const resetSearch = () => {
     dispatch(setSearch(""));
+    window.scrollTo(0, 0);
   };
 
   return (

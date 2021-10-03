@@ -3,19 +3,21 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { FrownOutlined } from "@ant-design/icons";
 
-import { BASE_URL } from "utils/api";
 import { Space } from "./types";
 import { RootState } from "store/reducers";
+import { SearchState } from "store/reducers/search";
+import { BASE_URL } from "utils/api";
+import { SPACE_PER_PAGE } from "./constant/page";
+import { SPACE_FILE } from "./constant/api";
 
 import ResultHeader from "./ResultHeader";
 import SpaceList from "./SpaceList";
-import { SearchState } from "store/reducers/search";
-
-const SPACE_FILE_NAME = "spaceSample.json";
+import Pager from "./Pager";
 
 function Result() {
   const [spaces, setSpaces] = useState<Space[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
   const { searchText } = useSelector<RootState, SearchState>(
     (state) => state.search
   );
@@ -33,7 +35,7 @@ function Result() {
     };
 
     const loadSpaceList = async () => {
-      const response = await fetch(`${BASE_URL}/${SPACE_FILE_NAME}`);
+      const response = await fetch(`${BASE_URL}/${SPACE_FILE}`);
 
       if (!response.ok) {
         throw response.statusText;
@@ -52,11 +54,24 @@ function Result() {
       setError(null);
     };
 
-    loadSpaceList().catch((err) => {
-      setError(err.message);
-      setSpaces([]);
-    });
+    loadSpaceList()
+      .catch((err) => {
+        setError(err.message);
+        setSpaces([]);
+      })
+      .finally(() => {
+        setPage(1);
+      });
+
+    window.scrollTo(0, 0);
   }, [searchText]);
+
+  const sliceSpacesToPage = (spaces: Space[], page: number): Space[] => {
+    const start = (page - 1) * SPACE_PER_PAGE;
+    const end = start + SPACE_PER_PAGE;
+
+    return spaces.slice(start, end);
+  };
 
   return (
     <Container>
@@ -68,7 +83,10 @@ function Result() {
           <span>{error}</span>
         </Alert>
       ) : (
-        <SpaceList spaces={spaces} />
+        <>
+          <SpaceList spaces={sliceSpacesToPage(spaces, page)} />
+          <Pager totalCount={spaces.length} page={page} setPage={setPage} />
+        </>
       )}
     </Container>
   );
@@ -80,13 +98,14 @@ const Container = styled.main`
   width: 1194px;
   margin: auto;
   margin-top: 67px;
+  padding-bottom: 120px;
 `;
 
 const Alert = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 22px;
+  gap: 20px;
   width: 100%;
   padding-top: 60px;
   text-align: center;
